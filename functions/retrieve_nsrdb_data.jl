@@ -1,6 +1,7 @@
 using Pandas
 using PyCall
 using PyPlot
+using DelimitedFiles
 
 # Eventually move run_solar_data_through_sam_ssc here
 
@@ -80,6 +81,23 @@ function get_nsrdb_raw_solar_data(lat,lon,year)
     nsrdb_data_frame = read_csv(url, skiprows=2);
     
     return nsrdb_data_frame;
+end
+
+function get_nsrdb_sam_pv_output(;pipeline=true)
+    if pipeline == true
+        nsrdb_data_frame = get_nsrdb_raw_solar_data(9.817934, -84.070552, 2010);
+        py"""
+        import sys
+        sys.path.insert(0, ".")
+        sys.path.insert(0, "./functions")
+        """
+        call_ssc_with_dataframe = pyimport("nsrdb_python")["call_ssc_with_dataframe"]
+        call_ssc_with_dataframe(nsrdb_data_frame);
+        pv_output = values(nsrdb_data_frame["Generation"])
+    else
+        pv_output=readdlm("data/pv_output.txt", '\t', Float64, '\n')
+    end
+    return pv_output
 end
     
 function plot_pysam_output(df, i=5030, j=40)

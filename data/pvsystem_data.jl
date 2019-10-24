@@ -1,4 +1,4 @@
-pv_output=readdlm("data/pv_output.txt", '\t', Float64, '\n')
+pv_output = get_nsrdb_sam_pv_output()
 
 PVRes = PVSystem(1.8,
                 [171,155,132,115,104,92,96,111,115,125,114,153],

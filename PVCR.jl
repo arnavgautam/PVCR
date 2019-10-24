@@ -59,6 +59,7 @@ include("functions/tariff.jl")
 include("functions/tariffs_hist.jl")
 include("functions/printing_tariffs.jl")
 include("functions/optimal_pvsystem.jl")
+include("functions/retrieve_nsrdb_data.jl")
 
 include("data/tariff_data.jl")
 include("data/tariff_data_alternative.jl")
